@@ -1,0 +1,20 @@
+name: resume_screening_env
+description: Simulates recruiter decision-making for hiring candidates
+
+observation_space:
+  candidate_skills: list
+  experience: int
+  job_required_skills: list
+
+action_space:
+  decision: shortlist | reject
+
+tasks:
+  - name: easy
+    description: perfect skill match candidate
+
+  - name: medium
+    description: partial skill match candidate
+
+  - name: hard
+    description: misleading candidate with different domain
