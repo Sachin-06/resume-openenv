@@ -10,7 +10,18 @@ class ActionRequest(BaseModel):
 
 @app.post("/reset")
 def reset():
-    return env.reset()   # ✅ FIXED
+    """Reset the environment and return initial step-like payload.
+
+    Many OpenEnv validators expect the same structure as /step:
+    observation, reward, done, info.
+    """
+    obs = env.reset()
+    return {
+        "observation": obs,
+        "reward": 0.0,
+        "done": False,
+        "info": {},
+    }
 
 @app.post("/step")
 def step(req: ActionRequest):
