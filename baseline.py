@@ -2,8 +2,8 @@ from env import ResumeEnv
 from grader import grade
 
 def simple_agent(obs):
-    skills = obs.candidate_skills
-    required = obs.job_required_skills
+    skills = obs["candidate_skills"]
+    required = obs["job_required_skills"]
 
     match = len(set(skills) & set(required)) / len(required)
 
@@ -12,32 +12,22 @@ def simple_agent(obs):
     else:
         return "reject"
 
-
 def run_agent():
     env = ResumeEnv()
-    levels = ["easy", "medium", "hard"]
 
-    total_score = 0
+    obs = env.reset()
 
-    for level in levels:
-        obs = env.reset(level)
+    action = simple_agent(obs)
 
-        action = simple_agent(obs)
+    obs, reward, done, info = env.step(action)
 
-        _, reward, _, _ = env.step(action)
-        print("Reward:", reward.score)
+    g = grade(obs, action)
 
-        g = grade(obs.model_dump(), action)
-
-        print(f"\nLevel: {level}")
-        print("Action:", action)
-        print("Reward:", reward.score)
-        print("Grade:", g)
-
-        total_score += g
-
-    print("\nFinal Score:", total_score / 3)
-
+    print("START")
+    print("STEP:", action)
+    print("REWARD:", reward)
+    print("GRADE:", g)
+    print("END")
 
 if __name__ == "__main__":
     run_agent()

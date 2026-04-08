@@ -1,5 +1,5 @@
 name: resume_screening_env
-description: Simulates recruiter decision-making for hiring candidates
+description: AI recruiter environment
 
 observation_space:
   candidate_skills: list
@@ -11,10 +11,5 @@ action_space:
 
 tasks:
   - name: easy
-    description: perfect skill match candidate
-
   - name: medium
-    description: partial skill match candidate
-
   - name: hard
-    description: misleading candidate with different domain
