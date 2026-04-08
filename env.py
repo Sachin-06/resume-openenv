@@ -5,7 +5,8 @@ class ResumeEnv:
     def __init__(self):
         self.state_data = None
 
-    def reset(self, level="easy"):
+    def reset(self):
+        level = "easy" 
         if level == "easy":
             self.state_data = Observation(
                 candidate_skills=["python", "ml"],
@@ -51,7 +52,7 @@ class ResumeEnv:
 
         reward_value = max(0.0, min(1.0, reward_value))
 
-        reward = Reward(score=reward_value)
+        reward = reward_value
 
         done = True
 
