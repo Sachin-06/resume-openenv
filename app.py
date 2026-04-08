@@ -10,10 +10,7 @@ class ActionRequest(BaseModel):
 
 @app.post("/reset")
 def reset():
-    obs = env.reset()
-    return {
-        "observation": obs
-    }
+    return env.reset()   # ✅ FIXED
 
 @app.post("/step")
 def step(req: ActionRequest):
