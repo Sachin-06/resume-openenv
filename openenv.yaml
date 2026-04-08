@@ -1,13 +1,16 @@
 name: resume_screening_env
 description: AI recruiter environment
 
+# Observation returned by POST /reset and /step
 observation_space:
   candidate_skills: list
   experience: int
   job_required_skills: list
 
+# Discrete actions the agent can take
 action_space:
-  decision: shortlist | reject
+  - shortlist
+  - reject
 
 tasks:
   - name: easy
