@@ -1,12 +1,8 @@
-def grade(obs, action):
-    required = set(obs["job_required_skills"])
-    skills = set(obs["candidate_skills"])
+def grade_easy(score):
+    return min(1.0, score)
 
-    match_ratio = len(skills & required) / len(required)
+def grade_medium(score):
+    return min(1.0, score * 0.8)
 
-    if match_ratio >= 0.5 and action == "shortlist":
-        return 1.0
-    elif match_ratio < 0.5 and action == "reject":
-        return 1.0
-    else:
-        return 0.0
+def grade_hard(score):
+    return min(1.0, score * 0.6)

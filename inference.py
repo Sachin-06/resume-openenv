@@ -1,17 +1,21 @@
-from env import ResumeEnv
+import os
+import requests
 
-def run():
-    env = ResumeEnv()
-    obs = env.reset()
+BASE_URL = os.getenv("API_BASE_URL", "http://localhost:7860")
 
-    action = "shortlist"
+print("[START]")
 
-    obs, reward, done, info = env.step(action)
+# Reset environment
+requests.post(f"{BASE_URL}/reset")
 
-    print("START")
-    print("STEP:", action)
-    print("REWARD:", reward)
-    print("END")
+payload = {
+    "resume": "I know python and ml",
+    "job_description": "Need python, ml, aws"
+}
 
-if __name__ == "__main__":
-    run()
+res = requests.post(f"{BASE_URL}/step", json=payload).json()
+
+print("[STEP]")
+print(res)
+
+print("[END]")
