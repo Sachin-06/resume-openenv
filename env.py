@@ -1,17 +1,19 @@
-from models import Action, Observation, Reward
+from models import Action
 
-SKILLS = ["python", "ml", "docker", "aws", "sql"]
+SKILLS = ["python", "ml", "docker", "aws", "sql", "kubernetes"]
 
 class ResumeEnv:
     def __init__(self):
         self.done = False
+        self.task = "easy"
 
-    def reset(self):
+    def reset(self, task="easy"):
         self.done = False
-        return {"message": "Environment reset"}
+        self.task = task
+        return {"message": f"Environment reset for {task} task"}
 
     def state(self):
-        return {"done": self.done}
+        return {"done": self.done, "task": self.task}
 
     def extract(self, text):
         text = text.lower()
@@ -24,7 +26,10 @@ class ResumeEnv:
         matched = list(set(resume_skills) & set(job_skills))
         missing = list(set(job_skills) - set(resume_skills))
 
-        score = len(matched) / len(job_skills) if job_skills else 0.0
+        base_score = len(matched) / len(job_skills) if job_skills else 0.0
+
+        from grader import grade
+        final_score = grade(self.task, base_score)
 
         self.done = True
 
@@ -33,7 +38,7 @@ class ResumeEnv:
                 "matched_skills": matched,
                 "missing_skills": missing
             },
-            "reward": score,
+            "reward": final_score,
             "done": self.done,
-            "info": {}
+            "info": {"task": self.task}
         }

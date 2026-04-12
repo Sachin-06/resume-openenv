@@ -10,8 +10,8 @@ def home():
     return {"message": "OpenEnv Resume Environment Running 🚀"}
 
 @app.post("/reset")
-def reset():
-    return env.reset()
+def reset(task: str = "easy"):
+    return env.reset(task)
 
 @app.get("/state")
 def state():

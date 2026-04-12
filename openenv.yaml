@@ -1,9 +1,15 @@
-name: Resume Screening Env
-description: Evaluate resumes against job descriptions
+name: Resume Screening Environment
+description: Evaluate resumes against job descriptions with skill matching and scoring
+
 tasks:
   - name: easy
+    description: Match basic skills (python, sql)
     difficulty: easy
+
   - name: medium
+    description: Match intermediate skills (ml, docker)
     difficulty: medium
+
   - name: hard
+    description: Match advanced skills (aws, kubernetes)
     difficulty: hard
