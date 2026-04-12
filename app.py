@@ -1,24 +1,39 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 from env import ResumeEnv
 
 app = FastAPI()
+
+# Request model
+class ActionRequest(BaseModel):
+    action: str
+
+# Create env instance
 env = ResumeEnv()
 
-@app.post("/reset")
-def reset():
-    return env.reset()
+# Health check (VERY IMPORTANT for HF)
+@app.get("/")
+def home():
+    return {"status": "healthy"}
 
+# Reset endpoint (IMPORTANT)
+@app.post("/reset")
+def reset_env():
+    state = env.reset()
+    return {"state": state}
+
+# Step endpoint
 @app.post("/step")
-def step(data: dict):
-    action = data.get("action")
-    obs, reward, done, info = env.step(action)
+def step_action(request: ActionRequest):
+    # Ensure env is initialized
+    if env.state_data is None:
+        env.reset()
+
+    state, reward, done, info = env.step(request.action)
+
     return {
-        "observation": obs,
+        "state": state,
         "reward": reward,
         "done": done,
         "info": info
     }
-
-@app.get("/")
-def root():
-    return {"status": "running"}
